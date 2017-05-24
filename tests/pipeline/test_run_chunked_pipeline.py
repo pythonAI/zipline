@@ -12,7 +12,7 @@ class ChunkedPipelineTestCase(WithEquityPricingPipelineEngine,
         """
         Test that running a pipeline in chunks produces the same result as if
         it were run all at once
-        """        
+        """
         pipe = Pipeline(
             columns={
                 'close': USEquityPricing.close.latest,

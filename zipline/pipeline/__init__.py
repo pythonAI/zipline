@@ -4,7 +4,6 @@ from zipline.utils.calendars import get_calendar
 from zipline.utils.date_utils import compute_date_range_chunks
 from zipline.utils.pandas_utils import categorical_df_concat
 
-from .caching import PipelineResult
 from .classifiers import Classifier, CustomClassifier
 from .engine import SimplePipelineEngine
 from .factors import Factor, CustomFactor
@@ -70,7 +69,7 @@ def run_chunked_pipeline(engine, pipeline, start_date, end_date, chunksize):
 
     Returns
     -------
-    results : dict[str, PipelineResult]
+    results : pd.DataFrame
         The results for each output term in the pipeline.
     """
     ranges = compute_date_range_chunks(
