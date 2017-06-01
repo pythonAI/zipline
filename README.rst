@@ -4,8 +4,7 @@
     :align: center
     :alt: Zipline
 
-Zipline
-=======
+=============
 
 |Gitter|
 |version status|
@@ -14,9 +13,7 @@ Zipline
 |Coverage Status|
 
 Zipline is a Pythonic algorithmic trading library. It is an event-driven
-system that supports both backtesting and live-trading.
-
-Zipline is currently used in production as the backtesting and live-trading
+system that supports both backtesting and live-trading. Zipline is currently used in production as the backtesting and live-trading
 engine powering `Quantopian <https://www.quantopian.com>`_ -- a free,
 community-centered, hosted platform for building and executing trading
 strategies.

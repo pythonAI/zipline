@@ -110,7 +110,11 @@ You should now be free to run tests:
 Continuous Integration
 ----------------------
 
-We use `Travis CI`__ for Linux builds and `AppVeyor`__ for Windows builds; we do not currently have CI for OS X builds.
+We use `Travis CI`__ for Linux builds and `AppVeyor`__ for Windows builds.
+
+.. note::
+
+   We do not currently have CI for OS X builds.
 
 __ https://travis-ci.org/
 __ https://www.appveyor.com/
