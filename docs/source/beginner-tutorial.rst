@@ -1,4 +1,4 @@
-Zipline beginner tutorial
+Zipline Beginner Tutorial
 -------------------------
 
 Basics

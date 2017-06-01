@@ -6,6 +6,8 @@
    install
    beginner-tutorial
    bundles
-   releases
+   development-environment
    appendix
    release-process
+   releases
+   
