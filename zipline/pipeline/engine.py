@@ -12,6 +12,7 @@ from six import (
     with_metaclass,
 )
 from numpy import array
+from odo.utils import copydoc
 from pandas import DataFrame, MultiIndex
 from toolz import groupby, juxt
 from toolz.curried.operator import getitem
@@ -68,10 +69,9 @@ class PipelineEngine(with_metaclass(ABCMeta)):
     @abstractmethod
     def run_chunked_pipeline(self, pipeline, start_date, end_date, chunksize):
         """
-        Compute values for `pipeline` for date range chunks the size
-        `chunksize`. Computing in chunks could reduce the amount of memory
-        used when generating pipeline results.
-
+        Compute values for `pipeline` in number of days equal to `chunksize`
+        and return stitched up result. Computing in chunks is useful for
+        pipelines computed over a long period of time.
 
         Parameters
         ----------
@@ -82,13 +82,22 @@ class PipelineEngine(with_metaclass(ABCMeta)):
         end_date : pd.Timestamp
             The end date to run the pipeline for.
         chunksize : int or None
-            The number of days to execute at a time. If this is None, then
+            The number of days to execute at a time. If None, then
             results will be calculated for entire date range at once.
 
         Returns
         -------
-        results : pd.DataFrame
-            The results for each output term in the pipeline.
+        result : pd.DataFrame
+            A frame of computed results.
+
+            The columns `result` correspond to the entries of
+            `pipeline.columns`, which should be a dictionary mapping strings to
+            instances of `zipline.pipeline.term.Term`.
+
+            For each date between `start_date` and `end_date`, `result` will
+            contain a row for each asset that passed `pipeline.screen`.  A
+            screen of None indicates that a row should be returned for each
+            asset that existed each day.
 
         See Also
         --------
@@ -250,6 +259,7 @@ class SimplePipelineEngine(PipelineEngine):
         See Also
         --------
         :meth:`PipelineEngine.run_pipeline`
+        :meth:`PipelineEngine.run_chunked_pipeline`
         """
         if end_date < start_date:
             raise ValueError(
@@ -295,26 +305,8 @@ class SimplePipelineEngine(PipelineEngine):
             assets,
         )
 
+    @copydoc(PipelineEngine.run_chunked_pipeline)
     def run_chunked_pipeline(self, pipeline, start_date, end_date, chunksize):
-        """Run a pipeline to collect the results.
-
-        Parameters
-        ----------
-        pipeline : Pipeline
-            The pipeline to run.
-        start_date : pd.Timestamp
-            The start date to run the pipeline for.
-        end_date : pd.Timestamp
-            The end date to run the pipeline for.
-        chunksize : int or None
-            The number of days to execute at a time. If this is None, the
-            entire date range will be run at once.
-
-        Returns
-        -------
-        results : pd.DataFrame
-            The results for each output term in the pipeline.
-        """
         ranges = compute_date_range_chunks(
             self._calendar,
             start_date,

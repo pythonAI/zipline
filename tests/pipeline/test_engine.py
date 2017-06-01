@@ -1504,6 +1504,9 @@ class PopulateInitialWorkspaceTestCase(WithConstantInputs, ZiplineTestCase):
 class ChunkedPipelineTestCase(WithEquityPricingPipelineEngine,
                               ZiplineTestCase):
 
+    PIPELINE_START_DATE = Timestamp('2006-01-05', tz='UTC')
+    END_DATE = Timestamp('2006-12-29', tz='UTC')
+
     def test_run_chunked_pipeline(self):
         """
         Test that running a pipeline in chunks produces the same result as if
@@ -1513,19 +1516,17 @@ class ChunkedPipelineTestCase(WithEquityPricingPipelineEngine,
             columns={
                 'close': USEquityPricing.close.latest,
                 'returns': Returns(window_length=2),
+                'categorical': USEquityPricing.close.latest.quantiles(5)
             },
         )
-        sessions = self.nyse_calendar.all_sessions
-        start_date = sessions[sessions.get_loc(self.START_DATE) + 2]
-
         pipeline_result = self.pipeline_engine.run_pipeline(
             pipe,
-            start_date=start_date,
+            start_date=self.PIPELINE_START_DATE,
             end_date=self.END_DATE,
         )
         chunked_result = self.pipeline_engine.run_chunked_pipeline(
             pipeline=pipe,
-            start_date=start_date,
+            start_date=self.PIPELINE_START_DATE,
             end_date=self.END_DATE,
             chunksize=22
         )
