@@ -126,13 +126,18 @@ __ http://www.zipline.io/release-process.html#uploading-conda-packages
 Contributing to the Docs
 ------------------------
 
-If you'df like to contribute to the documentation, you can navigate to ``docs/source/`` where each `reStructuredText`__ or ``.rst``, file is a separate section here on zipline.io. To add a section, create a new file called ``some-descriptive-name.rst`` and add ``some-descriptive-name`` to ``appendix.rst``. To edit a section, simply open up one of the existing files, make your changes, and save them.
+If you'd like to contribute to the documentation, you can navigate to ``docs/source/`` where each `reStructuredText`__ or ``.rst``, file is a separate section here on zipline.io. To add a section, create a new file called ``some-descriptive-name.rst`` and add ``some-descriptive-name`` to ``appendix.rst``. To edit a section, simply open up one of the existing files, make your changes, and save them.
 
 __ https://en.wikipedia.org/wiki/ReStructuredText
 
-We use `Sphinx`__ to generate documentation for Zipline.
+We use `Sphinx`__ to generate documentation for Zipline, which you will need to install by running:
 
 __ http://www.sphinx-doc.org/en/stable/
+
+
+.. code-block:: bash
+
+   $ pip install -r ./etc/requirements_docs.txt
 
 To build and view the docs locally, run:
 
