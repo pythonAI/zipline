@@ -2,8 +2,11 @@ Zipline Development Guidelines
 ==============================
 This page is intended for developers of Zipline, people who want to contribute to the Zipline codebase or documentation, or people who want to install from source and make local changes to their copy of Zipline.
 
-All contributions, bug reports, bug fixes, documentation improvements, enhancements and ideas are welcome. We [track issues](https://github.com/quantopian/zipline/issues) on [GitHub](https://github.com/) and also have a [mailing list](https://groups.google.com/forum/#!forum/zipline) where you can ask questions.
+All contributions, bug reports, bug fixes, documentation improvements, enhancements and ideas are welcome. We `track issues`__ on `GitHub`__ and also have a `mailing list`__ where you can ask questions.
 
+__ https://github.com/quantopian/zipline/issues
+__ https://github.com/
+__ https://groups.google.com/forum/#!forum/zipline
 
 Creating a Development Environment
 ----------------------------------
@@ -12,7 +15,7 @@ First, you'll need to clone Zipline by running:
 
 .. code-block:: bash
 
-   git clone git@github.com:your-github-username/Zipline.git
+   git clone git@github.com:your-github-username/zipline.git
 
 Then check out to a new branch where you can make your changes:
 
@@ -20,9 +23,14 @@ Then check out to a new branch where you can make your changes:
 		
    git checkout -b some-short-descriptive-name
 
-The following section assumes you already have virtualenvwrapper and pip installed on your system. If you don't already have them, you'll need some C library dependencies. You can follow the [install guide](http://www.Zipline.io/install.html) to get the appropriate dependencies.
+The following section assumes you already have virtualenvwrapper and pip installed on your system. If you don't already have them, you'll need some C library dependencies. You can follow the `install guide`__ to get the appropriate dependencies.
 
-In order to run tests locally, you'll need TA-lib.
+__ http://www.zipline.io/install.html 
+
+In order to run tests locally, you'll need `TA-lib`__.
+
+__ http://mrjbq7.github.io/ta-lib/
+
 .. code-block:: bash
 
    $ wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz
@@ -32,7 +40,7 @@ In order to run tests locally, you'll need TA-lib.
    $ make
    $ sudo make install
 
-And for `TA-lib` on OS X you can just run: `brew install ta-lib`.
+And for TA-lib on OS X you can just run: ``brew install ta-lib``.
 
 Suggested installation of Python library dependencies used for development:
 
@@ -60,22 +68,27 @@ If you get an error running nosetests after setting up a fresh virtualenv, pleas
 
 .. code-block:: bash
 
-   # where Zipline is the name of your virtualenv
+   # where zipline is the name of your virtualenv
    $ deactivate Zipline
-
    $ workon Zipline
 
 
 Development with Docker
 -----------------------
 
-If you want to work with zipline using a [Docker](https://docs.docker.com/get-started/) container, you'll need to build the `Dockerfile` in the Zipline root directory, and then build `Dockerfile-dev`. Instructions for building both containers can be found in `Dockerfile` and `Dockerfile-dev`, respectively.
+If you want to work with zipline using a `Docker`__ container, you'll need to build the ``Dockerfile`` in the Zipline root directory, and then build ``Dockerfile-dev``. Instructions for building both containers can be found in ``Dockerfile`` and ``Dockerfile-dev``, respectively.
+
+__ https://docs.docker.com/get-started/
 
 
 Style Guide & Running Tests
 ---------------------------
 
-We use `flake8` for checking style requirements and `nosetests` to run Zipline tests. Our [continuous integration](https://en.wikipedia.org/wiki/Continuous_integration) tools will run these commands.
+We use `flake8`__ for checking style requirements and `nosetests`__ to run Zipline tests. Our `continuous integration`__ tools will run these commands.
+
+__ http://flake8.pycqa.org/en/latest/
+__ http://nose.readthedocs.io/en/latest/
+__ https://en.wikipedia.org/wiki/Continuous_integration
 
 Before submitting patches or pull requests, please ensure that your changes pass when running:
 
@@ -94,7 +107,11 @@ In order to run tests locally, you'll need TA-lib, which you can install on Linu
    $ make
    $ sudo make install
 
-And for `TA-lib` on OS X you can just run: `brew install ta-lib`.
+And for ``TA-lib`` on OS X you can just run:
+
+.. code-block:: bash
+
+   $ brew install ta-lib
 
 You should now be free to run tests:
 
@@ -106,20 +123,29 @@ You should now be free to run tests:
 Continuous Integration
 ----------------------
 
-We use [Travis CI](https://travis-ci.org/) for Linux builds and [AppVeyor](https://www.appveyor.com/) for Windows builds; we do not currently have CI for OS X builds.
+We use `Travis CI`__ for Linux builds and `AppVeyor`__ for Windows builds; we do not currently have CI for OS X builds.
+
+__ https://travis-ci.org/
+__ https://www.appveyor.com/
 
 
 Packaging
 ---------
-To learn about how we build Zipline packages on [Anaconda](https://anaconda.org/), you can read [this](http://www.Zipline.io/release-process.html#uploading-conda-packages) section in our release process notes.
+To learn about how we build Zipline packages on `Anaconda`__ you can read `this`__ section in our release process notes.
 
+__ https://anaconda.org/
+__ http://www.zipline.io/release-process.html#uploading-conda-packages
    
 Contributing to the Docs
 ------------------------
 
-If you'd like to contribute to the documentation, you can navigate to `docs/source/` where each [reStructuredText](https://en.wikipedia.org/wiki/ReStructuredText) or `.rst` file is a separate section here on zipline.io. To add a section, create a new file called `some-descriptive-name.rst` and add `some-descriptive-name` to `appendix.rst`. To edit a section, simply open up one of the existing files, make your changes, and save them.
+If you'df like to contribute to the documentation, you can navigate to ``docs/source/`` where each `reStructuredText`__ or ``.rst``, file is a separate section here on zipline.io. To add a section, create a new file called ``some-descriptive-name.rst`` and add ``some-descriptive-name`` to ``appendix.rst``. To edit a section, simply open up one of the existing files, make your changes, and save them.
 
-We use [Sphinx](http://www.sphinx-doc.org/en/stable/) to generate documentation for Zipline.
+__ https://en.wikipedia.org/wiki/ReStructuredText
+
+We use `Sphinx`__ to generate documentation for Zipline.
+
+__ http://www.sphinx-doc.org/en/stable/
 
 To build and view the docs locally, run:
 
@@ -154,7 +180,9 @@ Standard prefixes to start a commit message:
 
 Some commit style guidelines:
 
-Commit lines should be no longer than [72 characters](https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project). The first line of the commit should include one of the above prefixes. There should be an empty line between the commit subject and the body of the commit. In general, the message should be in the imperative tense. Best practice is to include not only what the change is, but why the change was made.
+Commit lines should be no longer than `72 characters`__. The first line of the commit should include one of the above prefixes. There should be an empty line between the commit subject and the body of the commit. In general, the message should be in the imperative tense. Best practice is to include not only what the change is, but why the change was made.
+
+__ https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project
 
 e.g.
 
@@ -177,7 +205,9 @@ e.g.
 Formatting Docstrings
 ---------------------
 
-When adding or editing docstrings for classes, functions, etc, we use the numpy [HOWTO_DOCUMENT](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt) file as the canonical reference.
+When adding or editing docstrings for classes, functions, etc, we use the numpy `HOWTO_DOCUMENT`__ file as the canonical reference.
+
+__ https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt
 
 
 Pulling in Pull Requests (PRs)
