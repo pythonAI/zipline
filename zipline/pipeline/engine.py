@@ -27,6 +27,9 @@ from zipline.utils.pandas_utils import explode
 
 from .term import AssetExists, InputDates, LoadableTerm
 
+from zipline.utils.date_utils import compute_date_range_chunks
+from zipline.utils.pandas_utils import categorical_df_concat
+
 
 class PipelineEngine(with_metaclass(ABCMeta)):
 
@@ -62,6 +65,37 @@ class PipelineEngine(with_metaclass(ABCMeta)):
         """
         raise NotImplementedError("run_pipeline")
 
+    @abstractmethod
+    def run_chunked_pipeline(self, pipeline, start_date, end_date, chunksize):
+        """
+        Compute values for `pipeline` for date range chunks the size
+        `chunksize`. Computing in chunks could reduce the amount of memory
+        used when generating pipeline results.
+
+
+        Parameters
+        ----------
+        pipeline : Pipeline
+            The pipeline to run.
+        start_date : pd.Timestamp
+            The start date to run the pipeline for.
+        end_date : pd.Timestamp
+            The end date to run the pipeline for.
+        chunksize : int or None
+            The number of days to execute at a time. If this is None, then
+            results will be calculated for entire date range at once.
+
+        Returns
+        -------
+        results : pd.DataFrame
+            The results for each output term in the pipeline.
+
+        See Also
+        --------
+        :meth:`PipelineEngine.run_pipeline`
+        """
+        raise NotImplementedError("run_chunked_pipeline")
+
 
 class NoEngineRegistered(Exception):
     """
@@ -77,6 +111,12 @@ class ExplodingPipelineEngine(PipelineEngine):
     def run_pipeline(self, pipeline, start_date, end_date):
         raise NoEngineRegistered(
             "Attempted to run a pipeline but no pipeline "
+            "resources were registered."
+        )
+
+    def run_chunked_pipeline(self, pipeline, start_date, end_date, chunksize):
+        raise NoEngineRegistered(
+            "Attempted to run a chunked pipeline but no pipeline "
             "resources were registered."
         )
 
@@ -114,7 +154,7 @@ def default_populate_initial_workspace(initial_workspace,
     return initial_workspace
 
 
-class SimplePipelineEngine(object):
+class SimplePipelineEngine(PipelineEngine):
     """
     PipelineEngine class that computes each term independently.
 
@@ -146,7 +186,6 @@ class SimplePipelineEngine(object):
         '_root_mask_term',
         '_root_mask_dates_term',
         '_populate_initial_workspace',
-        '__weakref__',
     )
 
     def __init__(self,
@@ -210,7 +249,7 @@ class SimplePipelineEngine(object):
 
         See Also
         --------
-        PipelineEngine.run_pipeline
+        :meth:`PipelineEngine.run_pipeline`
         """
         if end_date < start_date:
             raise ValueError(
@@ -255,6 +294,36 @@ class SimplePipelineEngine(object):
             dates[extra_rows:],
             assets,
         )
+
+    def run_chunked_pipeline(self, pipeline, start_date, end_date, chunksize):
+        """Run a pipeline to collect the results.
+
+        Parameters
+        ----------
+        pipeline : Pipeline
+            The pipeline to run.
+        start_date : pd.Timestamp
+            The start date to run the pipeline for.
+        end_date : pd.Timestamp
+            The end date to run the pipeline for.
+        chunksize : int or None
+            The number of days to execute at a time. If this is None, the
+            entire date range will be run at once.
+
+        Returns
+        -------
+        results : pd.DataFrame
+            The results for each output term in the pipeline.
+        """
+        ranges = compute_date_range_chunks(
+            self._calendar,
+            start_date,
+            end_date,
+            chunksize,
+        )
+        chunks = [self.run_pipeline(pipeline, s, e) for s, e in ranges]
+
+        return categorical_df_concat(chunks, inplace=True)
 
     def _compute_root_mask(self, start_date, end_date, extra_rows):
         """
