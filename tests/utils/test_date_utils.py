@@ -3,10 +3,7 @@ from nose_parameterized import parameterized
 
 from zipline.testing import ZiplineTestCase
 from zipline.utils.calendars import get_calendar
-from zipline.utils.date_utils import (
-    compute_date_range_chunks,
-    roll_dates_to_previous_session
-)
+from zipline.utils.date_utils import compute_date_range_chunks
 
 
 def T(s):
@@ -22,20 +19,6 @@ class TestDateUtils(ZiplineTestCase):
     def init_class_fixtures(cls):
         super(TestDateUtils, cls).init_class_fixtures()
         cls.calendar = get_calendar('NYSE')
-
-    @parameterized.expand([
-        (T('2017-05-19'), T('2017-05-19')),  # actual trading date
-        (T('2015-07-04'), T('2015-07-02')),  # weekend nyse holiday
-        (T('2017-01-16'), T('2017-01-13')),  # weeknight nyse holiday
-    ])
-    def test_roll_dates_to_previous_session(self, date, expected_rolled_date):
-        self.assertEqual(
-            roll_dates_to_previous_session(
-                self.calendar.all_sessions,
-                date
-            )[0],
-            expected_rolled_date
-        )
 
     @parameterized.expand([
         (None, [(T('2017-01-03'), T('2017-01-31'))]),
