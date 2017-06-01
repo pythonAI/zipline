@@ -27,21 +27,6 @@ The following section assumes you already have virtualenvwrapper and pip install
 
 __ http://www.zipline.io/install.html 
 
-In order to run tests locally, you'll need `TA-lib`__.
-
-__ http://mrjbq7.github.io/ta-lib/
-
-.. code-block:: bash
-
-   $ wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz
-   $ tar -xvzf ta-lib-0.4.0-src.tar.gz
-   $ cd ta-lib/
-   $ ./configure --prefix=/usr
-   $ make
-   $ sudo make install
-
-And for TA-lib on OS X you can just run: ``brew install ta-lib``.
-
 Suggested installation of Python library dependencies used for development:
 
 .. code-block:: bash
@@ -96,7 +81,9 @@ Before submitting patches or pull requests, please ensure that your changes pass
 
    $ flake8 Zipline tests
 
-In order to run tests locally, you'll need TA-lib, which you can install on Linux by running:
+In order to run tests locally, you'll need `TA-lib`__, which you can install on Linux by running:
+
+__ https://mrjbq7.github.io/ta-lib/install.html
 
 .. code-block:: bash
 
